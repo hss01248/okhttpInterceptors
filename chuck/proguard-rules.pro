@@ -1,0 +1,2 @@
+-keep class com.readystatesoftware.chuck2.internal.data.HttpTransaction { *; }
+-keep class android.support.v7.widget.SearchView { *; }

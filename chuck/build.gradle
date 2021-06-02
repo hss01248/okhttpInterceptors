@@ -1,0 +1,54 @@
+apply plugin: 'com.android.library'
+
+
+android {
+    compileSdkVersion 30
+
+
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+
+        }
+
+        debug {
+
+        }
+
+        common {
+
+        }
+
+        debugReleaseUrl {
+
+        }
+
+
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //api 'com.jakewharton.timber:timber:4.5.1'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation "com.squareup.okhttp3:okhttp:3.12.1"
+    implementation 'nl.qbusict:cupboard:2.2.0'
+    implementation 'com.google.android.material:material:1.2.0'
+    api 'com.github.hss01248.metadata:metadata:1.1.1'
+
+    //api "com.github.bumptech.glide:glide:4.9.0"
+    implementation 'com.davemorrissey.labs:subsampling-scale-image-view:3.10.0'
+
+}
+
+
+

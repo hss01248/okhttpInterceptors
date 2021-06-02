@@ -1,0 +1,2 @@
+-keep class retrofit2.RequestBuilder.**{*;}
+-keep class okhttp3.RequestBody.**{*;}

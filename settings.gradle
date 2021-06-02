@@ -1,3 +1,4 @@
+include ':chuck'
 include ':interceptors'
 include ':app'
 rootProject.name = "OkhttpInterceptorsDemo"
