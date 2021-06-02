@@ -22,6 +22,9 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okio.Buffer;
 
+/**
+ * 参考  https://github.com/jkyeo/okhttp-basicparamsinterceptor/blob/master/basicparamsinterceptor/src/main/java/com/jkyeo/basicparamsinterceptor/BasicParamsInterceptor.java
+ */
 public class AddCommonHeaderAndParamInterceptor extends BaseInterceptor {
 
     static ICommonMap headerMap;
