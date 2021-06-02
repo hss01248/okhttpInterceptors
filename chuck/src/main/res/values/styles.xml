@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
  ~ Copyright (C) 2017 Jeff Gilfelt.
  ~
  ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +14,7 @@
  ~ limitations under the License.
  -->
 <resources xmlns:tools="http://schemas.android.com/tools">
+
     <style name="Chuck.Theme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/chuck_colorPrimary</item>
         <item name="colorPrimaryDark">@color/chuck_colorPrimaryDark</item>

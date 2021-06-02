@@ -2,6 +2,7 @@ package com.readystatesoftware.chuck2.internal.support;
 
 import android.app.IntentService;
 import android.content.Intent;
+
 import androidx.annotation.Nullable;
 
 import com.readystatesoftware.chuck2.internal.data.ChuckContentProvider;

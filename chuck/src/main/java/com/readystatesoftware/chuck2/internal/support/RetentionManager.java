@@ -56,7 +56,7 @@ public class RetentionManager {
 
     private void deleteSince(long threshold) {
         int rows = context.getContentResolver().delete(ChuckContentProvider.TRANSACTION_URI,
-                "requestDate <= ?", new String[] { String.valueOf(threshold) });
+                "requestDate <= ?", new String[]{String.valueOf(threshold)});
         Log.i(LOG_TAG, rows + " transactions deleted");
     }
 

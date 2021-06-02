@@ -2,7 +2,9 @@ package com.readystatesoftware.chuck2;
 
 import android.os.Handler;
 import android.os.Looper;
+
 import androidx.annotation.NonNull;
+
 import android.util.Log;
 
 import java.io.IOException;
@@ -60,17 +62,17 @@ public class SameRequestInterceptor implements Interceptor {
             return chain.proceed(request);
         }
 
-        if(urlPathsForIntercept == null){
+        if (urlPathsForIntercept == null) {
             urlPathsForIntercept = config.urlPathsForIntercept();
         }
-        if(urlPathsForIntercept == null || urlPathsForIntercept.isEmpty()){
+        if (urlPathsForIntercept == null || urlPathsForIntercept.isEmpty()) {
             return chain.proceed(request);
         }
 
         //全局配置的urlpath匹配
-        boolean intercept = shouldIntercept(urlPathsForIntercept,request);
+        boolean intercept = shouldIntercept(urlPathsForIntercept, request);
 
-        if(!intercept){
+        if (!intercept) {
             return chain.proceed(request);
         }
 
@@ -80,7 +82,7 @@ public class SameRequestInterceptor implements Interceptor {
         }
 
         String key = generateKey(request);
-        logw("key is :"+key,request.url().toString());
+        logw("key is :" + key, request.url().toString());
 
         //递归检查,等待
         return check(chain, request, key);
@@ -90,7 +92,7 @@ public class SameRequestInterceptor implements Interceptor {
         String url = request.url().toString();
 
         for (String path : urlPathsForIntercept) {
-            if (url.contains(path)){
+            if (url.contains(path)) {
                 return true;
             }
         }
@@ -100,7 +102,7 @@ public class SameRequestInterceptor implements Interceptor {
     private Response check(Chain chain, Request request, String key) throws IOException {
         try {
             //从缓存的call和response中判断要不要等待
-            boolean needwait = needwait(key,request.url().toString());
+            boolean needwait = needwait(key, request.url().toString());
 
             if (!needwait) {
                 if (responseWeakHashMap.containsKey(key)) {
@@ -160,16 +162,16 @@ public class SameRequestInterceptor implements Interceptor {
                     public void run() {
                         //1min后移除缓存的response:
                         responseWeakHashMap.remove(key);
-                        logw(config.responseCacheTimeInMills() + "ms 时间到了,清除缓存的response",url);
+                        logw(config.responseCacheTimeInMills() + "ms 时间到了,清除缓存的response", url);
                     }
                 }, config.responseCacheTimeInMills());
 
-            }else {
+            } else {
                 calls.remove(key);
             }
 
             return response;
-        }catch (IOException e){
+        } catch (IOException e) {
             calls.remove(key);
             //其他非io类型的异常,calls里用软引用自动移除
             throw e;
@@ -177,30 +179,30 @@ public class SameRequestInterceptor implements Interceptor {
     }
 
     private String str(Request request) {
-      return   request.getClass().getName() + "@" + Integer.toHexString(request.hashCode());
+        return request.getClass().getName() + "@" + Integer.toHexString(request.hashCode());
     }
 
     private boolean canCacheResponse(Response response) {
-        if(response == null){
+        if (response == null) {
             return false;
         }
-        if(!response.isSuccessful()){
+        if (!response.isSuccessful()) {
             return false;
         }
         String url = response.request().url().toString();
-        if(response.body() == null){
-            logw("response 的body为空,不缓存response",url);
+        if (response.body() == null) {
+            logw("response 的body为空,不缓存response", url);
             return false;
         }
-        if(response.body().contentType() == null){
-            logw("response 的contenttype为空,不缓存response",url);
+        if (response.body().contentType() == null) {
+            logw("response 的contenttype为空,不缓存response", url);
             return false;
         }
         String type = response.body().contentType().type();
-        if("text".equals(type) || "application".equals(type)){
+        if ("text".equals(type) || "application".equals(type)) {
             return true;
         }
-        logw("response 的contenttype不是text或application类型,而是:"+type+",不缓存response",url);
+        logw("response 的contenttype不是text或application类型,而是:" + type + ",不缓存response", url);
         return false;
     }
 
@@ -211,39 +213,39 @@ public class SameRequestInterceptor implements Interceptor {
         return handler;
     }
 
-    private boolean needwait(String key,String url) {
+    private boolean needwait(String key, String url) {
         if (responseWeakHashMap.containsKey(key)) {
-            logw("有缓存的response,直接去读缓存,并组装新的response",url);
+            logw("有缓存的response,直接去读缓存,并组装新的response", url);
             return false;
         }
         if (calls.containsKey(key)) {
             WeakReference<Call> callWeakReference = calls.get(key);
             if (callWeakReference == null) {
-                logw("不需要等待,直接发请求 call WeakReference not exist:",url);
+                logw("不需要等待,直接发请求 call WeakReference not exist:", url);
                 return false;
             }
             Call call = callWeakReference.get();
             if (call == null || call.isCanceled()) {
-                logw("不需要等待,直接发请求 call not exist or is canceld:" + call,url);
+                logw("不需要等待,直接发请求 call not exist or is canceld:" + call, url);
                 return false;
             }
-            logw("请求可能正在等待或正在执行-needwait call is running:" + call,url);
+            logw("请求可能正在等待或正在执行-needwait call is running:" + call, url);
             //请求可能正在等待或正在执行
             return true;
         }
-        logw("任何地方都没有,不需要等,直接执行请求",url);
+        logw("任何地方都没有,不需要等,直接执行请求", url);
         //任何地方都没有,不需要等,直接执行请求
         return false;
     }
 
-    private static void logw(String str,String url) {
+    private static void logw(String str, String url) {
         if (debug) {
-            Log.w("SameRequest", str+"  "+ url);
+            Log.w("SameRequest", str + "  " + url);
         }
     }
 
     private static String getCookiesStr(HttpUrl url) {
-        if(config.getCookieJarInstance() == null){
+        if (config.getCookieJarInstance() == null) {
             return "";
         }
 
@@ -253,7 +255,6 @@ public class SameRequestInterceptor implements Interceptor {
         }
         return "";
     }
-
 
 
     private static String cookieHeader(List<Cookie> cookies) {
@@ -289,6 +290,7 @@ public class SameRequestInterceptor implements Interceptor {
         /**
          * 注意不能用response.newBuilder().xxxx, 新的response只能拷贝老的字符类信息,不要携带其他任何信息,
          * 否则在上层再次使用时可能会崩溃. 同时,request要使用本次的request
+         *
          * @param request
          * @return
          */
@@ -310,45 +312,48 @@ public class SameRequestInterceptor implements Interceptor {
 
         /**
          * 在配置了全局url path基础上,对单个request进行更细致的判断
+         *
          * @param request
          * @return
          */
-        protected  boolean shouldInterceptSameRequest(Request request){
+        protected boolean shouldInterceptSameRequest(Request request) {
             return true;
         }
 
         /**
          * 全局配置url path的白名单,只有在这个名单中的,才予以拦截同样的请求
+         *
          * @return
          */
-        protected List<String>  urlPathsForIntercept(){
+        protected List<String> urlPathsForIntercept() {
             return new ArrayList<>();
         }
 
-        protected String generateCacheKey(Request request){
+        protected String generateCacheKey(Request request) {
             //这一层拿不到cookie,得通过外部cookiejar拿
             String cookie = getCookiesStr(request.url());
 
-            if(request.body() == null){
-                return request.url().toString()+"&Cookie="+cookie;
+            if (request.body() == null) {
+                return request.url().toString() + "&Cookie=" + cookie;
             }
             String url = request.url().toString();
             RequestBody body = request.body();
             String type = "";
-            if(body.contentType() != null){
+            if (body.contentType() != null) {
                 type = body.contentType().toString();
             }
             long length = -1;
             try {
-                 length = body.contentLength();
+                length = body.contentLength();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return url+"&ContentType="+type+"&ContentLength="+length+"&Cookie="+cookie;
+            return url + "&ContentType=" + type + "&ContentLength=" + length + "&Cookie=" + cookie;
         }
 
         /**
          * 应该使用单例. 返回null代表不将cookie内容用作key的生成
+         *
          * @return
          */
         protected CookieJar getCookieJarInstance() {
@@ -357,14 +362,16 @@ public class SameRequestInterceptor implements Interceptor {
 
         /**
          * 多长时间内相同的请求要读缓存,默认1min
+         *
          * @return
          */
-        protected long responseCacheTimeInMills(){
+        protected long responseCacheTimeInMills() {
             return 60000;
         }
 
         /**
          * 发现相同请求在执行时,内部线程等多长时间去查询缓存的response,默认500ms
+         *
          * @return
          */
         public long callWaitTimeInMills() {

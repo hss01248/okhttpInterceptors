@@ -24,6 +24,7 @@ import android.content.pm.ProviderInfo;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -109,7 +110,7 @@ public class ChuckContentProvider extends ContentProvider {
                 break;
             case TRANSACTION:
                 result = db.delete(LocalCupboard.getInstance().getTable(HttpTransaction.class),
-                        "_id = ?", new String[]{ uri.getPathSegments().get(1) });
+                        "_id = ?", new String[]{uri.getPathSegments().get(1)});
                 break;
         }
         if (result > 0) {
@@ -129,7 +130,7 @@ public class ChuckContentProvider extends ContentProvider {
                 break;
             case TRANSACTION:
                 result = db.update(LocalCupboard.getInstance().getTable(HttpTransaction.class), contentValues,
-                        "_id = ?", new String[]{ uri.getPathSegments().get(1) });
+                        "_id = ?", new String[]{uri.getPathSegments().get(1)});
                 break;
         }
         if (result > 0) {

@@ -19,16 +19,15 @@ import okio.Okio;
 public class GzipRequestInterceptor extends BaseInterceptor {
 
 
-
     @Override
     public Response interceptReally(Chain chain) throws IOException {
         Request originalRequest = chain.request();
-        if(originalRequest.body() == null){
+        if (originalRequest.body() == null) {
             return chain.proceed(originalRequest);
         }
 
         if (originalRequest.header("Content-Encoding") != null) {
-            Log.w("gzip","originalRequest.header(\"Content-Encoding\") is "+originalRequest.header("Content-Encoding"));
+            Log.w("gzip", "originalRequest.header(\"Content-Encoding\") is " + originalRequest.header("Content-Encoding"));
             return chain.proceed(originalRequest);
         }
 
@@ -38,7 +37,6 @@ public class GzipRequestInterceptor extends BaseInterceptor {
                 .build();
         return chain.proceed(compressedRequest);
     }
-
 
 
     /**
@@ -69,7 +67,6 @@ public class GzipRequestInterceptor extends BaseInterceptor {
             }
         };
     }
-
 
 
     private RequestBody gzip(final RequestBody body) {

@@ -16,9 +16,11 @@
 package com.readystatesoftware.chuck2.internal.data;
 
 import android.net.Uri;
+
 import com.google.gson.reflect.TypeToken;
 import com.readystatesoftware.chuck2.internal.support.FormatUtils;
 import com.readystatesoftware.chuck2.internal.support.JsonConvertor;
+
 import nl.qbusict.cupboard.annotation.Index;
 import okhttp3.Headers;
 
@@ -36,7 +38,7 @@ public class HttpTransaction {
         Failed
     }
 
-    public static final String[] PARTIAL_PROJECTION = new String[] {
+    public static final String[] PARTIAL_PROJECTION = new String[]{
             "_id",
             "requestDate",
             "tookMs",
@@ -56,7 +58,8 @@ public class HttpTransaction {
     private static final SimpleDateFormat TIME_ONLY_FMT = new SimpleDateFormat("HH:mm:ss", Locale.US);
 
     private Long _id;
-    @Index private Date requestDate;
+    @Index
+    private Date requestDate;
     private Date responseDate;
     private Long tookMs;
 
@@ -291,7 +294,8 @@ public class HttpTransaction {
 
     public List<HttpHeader> getRequestHeaders() {
         return JsonConvertor.getInstance().fromJson(requestHeaders,
-                new TypeToken<List<HttpHeader>>(){}.getType());
+                new TypeToken<List<HttpHeader>>() {
+                }.getType());
     }
 
     public String getRequestHeadersString(boolean withMarkup) {
@@ -308,7 +312,8 @@ public class HttpTransaction {
 
     public List<HttpHeader> getResponseHeaders() {
         return JsonConvertor.getInstance().fromJson(responseHeaders,
-                new TypeToken<List<HttpHeader>>(){}.getType());
+                new TypeToken<List<HttpHeader>>() {
+                }.getType());
     }
 
     public String getResponseHeadersString(boolean withMarkup) {
@@ -338,12 +343,13 @@ public class HttpTransaction {
     }
 
     public String getDurationString() {
-        return (tookMs != null) ? + tookMs + " ms" : null;
+        return (tookMs != null) ? +tookMs + " ms" : null;
     }
 
     public String getRequestSizeString() {
         return formatBytes((requestContentLength != null) ? requestContentLength : 0);
     }
+
     public String getResponseSizeString() {
         return (responseContentLength != null) ? formatBytes(responseContentLength) : null;
     }

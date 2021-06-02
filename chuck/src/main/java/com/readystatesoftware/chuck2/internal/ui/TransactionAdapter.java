@@ -18,9 +18,11 @@ package com.readystatesoftware.chuck2.internal.ui;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Color;
+
 import androidx.core.content.ContextCompat;
 import androidx.cursoradapter.widget.CursorAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -115,13 +117,13 @@ class TransactionAdapter extends RecyclerView.Adapter<TransactionAdapter.ViewHol
                 holder.code.setTextColor(color);
                 holder.path.setTextColor(color);
 
-                if(transaction.isOtherNetWorkFramework()){
+                if (transaction.isOtherNetWorkFramework()) {
                     holder.host.setTextColor(Color.RED);
                     holder.page.setTextColor(Color.RED);
-                }else if(transaction.isInWebView()){
+                } else if (transaction.isInWebView()) {
                     holder.host.setTextColor(Color.BLUE);
                     holder.page.setTextColor(Color.BLUE);
-                }else {
+                } else {
                     holder.host.setTextColor(Color.GRAY);
                     holder.page.setTextColor(Color.GRAY);
                 }

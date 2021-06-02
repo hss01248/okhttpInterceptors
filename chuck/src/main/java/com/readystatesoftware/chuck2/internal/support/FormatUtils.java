@@ -17,11 +17,13 @@ package com.readystatesoftware.chuck2.internal.support;
 
 import android.content.Context;
 import android.text.TextUtils;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.readystatesoftware.chuck2.R;
 import com.readystatesoftware.chuck2.internal.data.HttpHeader;
 import com.readystatesoftware.chuck2.internal.data.HttpTransaction;
+
 import org.xml.sax.InputSource;
 
 import javax.xml.transform.OutputKeys;
@@ -30,6 +32,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.stream.StreamResult;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.net.URLDecoder;
@@ -53,7 +56,7 @@ public class FormatUtils {
         int unit = si ? 1000 : 1024;
         if (bytes < unit) return bytes + " B";
         int exp = (int) (Math.log(bytes) / Math.log(unit));
-        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1) + (si ? "" : "i");
+        String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp - 1) + (si ? "" : "i");
         return String.format(Locale.US, "%.1f %sB", bytes / Math.pow(unit, exp), pre);
     }
 
@@ -75,7 +78,7 @@ public class FormatUtils {
             Source xmlSource = new SAXSource(new InputSource(new ByteArrayInputStream(xml.getBytes())));
             StreamResult res = new StreamResult(new ByteArrayOutputStream());
             serializer.transform(xmlSource, res);
-            return new String(((ByteArrayOutputStream)res.getOutputStream()).toByteArray());
+            return new String(((ByteArrayOutputStream) res.getOutputStream()).toByteArray());
         } catch (Exception e) {
             return xml;
         }
@@ -143,12 +146,12 @@ public class FormatUtils {
     }
 
     public static String formatKeyValues(String body) {
-        if(TextUtils.isEmpty(body)){
+        if (TextUtils.isEmpty(body)) {
             return "";
         }
         String str = URLDecoder.decode(body);
-        str = str.replace("&","\n");
-        str = str.replace("="," : ");
+        str = str.replace("&", "\n");
+        str = str.replace("=", " : ");
         return str;
 
     }

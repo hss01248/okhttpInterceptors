@@ -19,17 +19,18 @@ import okhttp3.Response;
 import okio.Buffer;
 import okio.BufferedSink;
 
-public class EncryptRequestBodyInterceptor extends BaseInterceptor{
+public class EncryptRequestBodyInterceptor extends BaseInterceptor {
 
     public static void setCryptKey(String cryptKey) {
         EncryptRequestBodyInterceptor.cryptKey = cryptKey;
     }
 
-    private static  String cryptKey = "85pm767op052p79u01e81bf6btla4j69";
+    private static String cryptKey = "85pm767op052p79u01e81bf6btla4j69";
+
     @Override
     protected Response interceptReally(Chain chain) throws IOException {
         Request originalRequest = chain.request();
-        if(originalRequest.body() == null){
+        if (originalRequest.body() == null) {
             return chain.proceed(originalRequest);
         }
         Request compressedRequest = originalRequest.newBuilder()
@@ -54,11 +55,11 @@ public class EncryptRequestBodyInterceptor extends BaseInterceptor{
         buffer.readFully(bytes);
 
         final byte[] bytesEncrypted = encrypt(bytes);
-        if(isDebug){
-            Log.w("buffer","buffer.readFully(bytes)\n"+new String(bytes));
-            Log.w("buffer","after encrypted\n"+new String(bytesEncrypted));
+        if (isDebug) {
+            Log.w("buffer", "buffer.readFully(bytes)\n" + new String(bytes));
+            Log.w("buffer", "after encrypted\n" + new String(bytesEncrypted));
 
-            Log.w("buffer","after decrypted\n"+new String(decrypt(bytesEncrypted)));
+            Log.w("buffer", "after decrypted\n" + new String(decrypt(bytesEncrypted)));
         }
 
 
@@ -103,7 +104,7 @@ public class EncryptRequestBodyInterceptor extends BaseInterceptor{
                 out.write(buffer, 0, r);
             }
             return out.toByteArray();
-        }catch (Throwable throwable){
+        } catch (Throwable throwable) {
             throwable.printStackTrace();
             return bytes;
         }
@@ -125,7 +126,7 @@ public class EncryptRequestBodyInterceptor extends BaseInterceptor{
                 out.write(buffer, 0, r);
             }
             return out.toByteArray();
-        }catch (Throwable throwable){
+        } catch (Throwable throwable) {
             throwable.printStackTrace();
             return bytes;
         }

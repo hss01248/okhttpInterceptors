@@ -17,8 +17,10 @@ package com.readystatesoftware.chuck2.internal.ui;
 
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -116,18 +118,18 @@ public class TransactionPayloadFragment extends Fragment implements TransactionF
     }
 
     private void showImg(String bodyString) {
-        if(TextUtils.isEmpty(bodyString)){
+        if (TextUtils.isEmpty(bodyString)) {
             return;
         }
         String[] split = bodyString.split("\n");
-        if(split != null && split.length > 0){
+        if (split != null && split.length > 0) {
             String path = split[0];
-            if(!TextUtils.isEmpty(path)){
-                if(path.contains("chuckimgcache")){
+            if (!TextUtils.isEmpty(path)) {
+                if (path.contains("chuckimgcache")) {
                     body.setText(bodyString);
                 }
                 File file = new File(path);
-                if(file.exists()){
+                if (file.exists()) {
                     ivBody.setVisibility(View.VISIBLE);
                     ivBody.setImage(ImageSource.uri(Uri.fromFile(file)));
 

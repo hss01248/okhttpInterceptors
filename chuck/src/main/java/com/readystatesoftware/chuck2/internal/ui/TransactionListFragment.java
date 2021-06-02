@@ -18,6 +18,7 @@ package com.readystatesoftware.chuck2.internal.ui;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.loader.app.LoaderManager;
@@ -27,6 +28,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.appcompat.widget.SearchView;
+
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -48,7 +50,8 @@ public class TransactionListFragment extends Fragment implements
     private OnListFragmentInteractionListener listener;
     private TransactionAdapter adapter;
 
-    public TransactionListFragment() {}
+    public TransactionListFragment() {
+    }
 
     public static TransactionListFragment newInstance() {
         return new TransactionListFragment();
@@ -130,10 +133,10 @@ public class TransactionListFragment extends Fragment implements
         if (!TextUtils.isEmpty(currentFilter)) {
             if (TextUtils.isDigitsOnly(currentFilter)) {
                 loader.setSelection("responseCode LIKE ?");
-                loader.setSelectionArgs(new String[]{ currentFilter + "%" });
+                loader.setSelectionArgs(new String[]{currentFilter + "%"});
             } else {
                 loader.setSelection("path LIKE ?");
-                loader.setSelectionArgs(new String[]{ "%" + currentFilter + "%" });
+                loader.setSelectionArgs(new String[]{"%" + currentFilter + "%"});
             }
         }
         loader.setProjection(HttpTransaction.PARTIAL_PROJECTION);

@@ -7,6 +7,6 @@ package com.readystatesoftware.chuck2;
  */
 public interface IChuckPwCheck {
 
-    void check(String input,Runnable success,Runnable fail);
+    void check(String input, Runnable success, Runnable fail);
 
 }
