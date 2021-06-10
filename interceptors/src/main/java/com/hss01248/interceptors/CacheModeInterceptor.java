@@ -2,6 +2,7 @@ package com.hss01248.interceptors;
 
 import java.io.IOException;
 
+import okhttp3.Request;
 import okhttp3.Response;
 
 /**
@@ -17,6 +18,11 @@ import okhttp3.Response;
 public class CacheModeInterceptor extends BaseInterceptor{
     @Override
     protected Response interceptReally(Chain chain) throws IOException {
-        return null;
+        Request request = chain.request();
+
+        Response cache = null;
+        return cache;
+       //return chain.proceed(request);
+
     }
 }
